@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>年号覇王伝</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    sans-serif;
+  background: #f2f5fa;
+  color: #222;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* =========================
+   ヘッダー
+========================= */
+
+header {
+  background: linear-gradient(135deg, #315efb, #6846d9);
+  color: white;
+  padding:
+    calc(18px + env(safe-area-inset-top))
+    15px
+    20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 25px;
+  line-height: 1.3;
+}
+
+header p {
+  margin: 7px 0 0;
+  font-size: 14px;
+}
+
+/* =========================
+   全体
+========================= */
+
+.container {
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 12px;
+  padding-bottom: 35px;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px 15px;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 14px rgba(0,0,0,.08);
+}
+
+/* =========================
+   見出し
+========================= */
+
+h2 {
+  font-size: 20px;
+  margin:
+    0 0 15px;
+}
+
+/* =========================
+   入力
+========================= */
+
+label {
+  display: block;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 16px;
+  margin-bottom: 7px;
+}
+
+select,
+input {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 13px;
+  border: 1.5px solid #cbd3df;
+  border-radius: 12px;
+  background: white;
+  color: #222;
+  font-size: 17px;
+  appearance: auto;
+}
+
+input:focus,
+select:focus {
+  outline: 3px solid rgba(49,94,251,.18);
+  border-color: #315efb;
+}
+
+/* =========================
+   ボタン
+========================= */
+
+button {
+  width: 100%;
+  min-height: 54px;
+  border: none;
+  border-radius: 13px;
+  padding: 13px 12px;
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 1.35;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    transform .08s,
+    opacity .15s;
+}
+
+button:active {
+  transform: scale(.97);
+}
+
+button:disabled {
+  opacity: .75;
+}
+
+.startBtn {
+  background: #315efb;
+  color: white;
+  box-shadow: 0 3px 7px rgba(49,94,251,.25);
+}
+
+.subBtn {
+  background: #edf1ff;
+  color: #315efb;
+}
+
+.dangerBtn {
+  background: #ffe9e9;
+  color: #c22;
+}
+
+.backBtn {
+  background: #eeeeee;
+  color: #555;
+}
+
+/* =========================
+   問題形式
+========================= */
+
+.modeBtns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 9px;
+}
+
+.modeBtn {
+  min-height: 58px;
+  background: #eef1f6;
+  color: #333;
+  border: 2px solid transparent;
+}
+
+.modeBtn.selected {
+  background: #315efb;
+  color: white;
+}
+
+/* =========================
+   問題画面
+========================= */
+
+.questionNo {
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.question {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.55;
+  text-align: center;
+  padding:
+    12px 5px
+    18px;
+  word-break: break-word;
+}
+
+/* =========================
+   進捗バー
+========================= */
+
+.progress {
+  width: 100%;
+  height: 10px;
+  background: #e3e7ee;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 7px 0 12px;
+}
+
+.progressBar {
+  height: 100%;
+  background: #315efb;
+  width: 0%;
+  transition: width .3s ease;
+}
+
+/* =========================
+   年号入力
+========================= */
+
+.answerInput {
+  width: 100%;
+  height: 65px;
+  min-height: 65px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid #bfc8d8;
+  border-radius: 14px;
+  margin-top: 5px;
+}
+
+.answerInput::placeholder {
+  font-size: 17px;
+  font-weight: normal;
+  color: #999;
+}
+
+/* =========================
+   6択
+========================= */
+
+.sixChoices {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.choice {
+  width: 100%;
+  min-height: 64px;
+  margin: 0;
+  padding: 12px 14px;
+  background: #f4f6fa;
+  border: 2px solid #dce1e9;
+  color: #222;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 13px;
+}
+
+.choice:active {
+  background: #e9edff;
+}
+
+.choice.correct {
+  background: #d8f7df;
+  border-color: #39a852;
+  color: #176b29;
+}
+
+.choice.wrong {
+  background: #ffdcdc;
+  border-color: #e33;
+  color: #a51d1d;
+}
+
+/* =========================
+   結果表示
+========================= */
+
+.result {
+  padding: 16px;
+  border-radius: 13px;
+  margin-top: 14px;
+  font-size: 19px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.correctResult {
+  background: #e1f7e6;
+  color: #176b29;
+}
+
+.wrongResult {
+  background: #ffe2e2;
+  color: #a51d1d;
+}
+
+/* =========================
+   語呂合わせ
+========================= */
+
+.goro {
+  background: #fff8d9;
+  border-left: 5px solid #f1c40f;
+  padding: 14px;
+  margin-top: 12px;
+  border-radius: 9px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.goroTitle {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* =========================
+   解説
+========================= */
+
+.explanation {
+  margin-top: 12px;
+  padding: 12px;
+  background: #f6f7f9;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* =========================
+   スコア
+========================= */
+
+.score {
+  text-align: center;
+  font-size: 48px;
+  font-weight: 900;
+  margin: 15px 0;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  text-align: center;
+}
+
+.statBox {
+  background: #f2f4f8;
+  border-radius: 12px;
+  padding: 12px 4px;
+}
+
+.statNumber {
+  font-size: 25px;
+  font-weight: 900;
+  margin-bottom: 3px;
+}
+
+/* =========================
+   ランク
+========================= */
+
+.rankA {
+  color: #d33;
+}
+
+.rankB {
+  color: #d88a00;
+}
+
+.rankC {
+  color: #4878c9;
+}
+
+/* =========================
+   小さい文字
+========================= */
+
+.small {
+  font-size: 13px;
+  color: #777;
+  line-height: 1.5;
+}
+
+/* =========================
+   スマホ用
+========================= */
+
+@media (max-width: 480px) {
+
+  .container {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 16px 12px;
+    border-radius: 16px;
+  }
+
+  header h1 {
+    font-size: 23px;
+  }
+
+  .question {
+    font-size: 23px;
+  }
+
+  .choice {
+    min-height: 67px;
+    font-size: 16px;
+  }
+
+  button {
+    min-height: 56px;
+    font-size: 17px;
+  }
+
+  .statGrid {
+    gap: 5px;
+  }
+
+  .statBox {
+    font-size: 13px;
+  }
+
+  .statNumber {
+    font-size: 23px;
+  }
+}
+
+/* =========================
+   横向き対策
+========================= */
+
+@media (orientation: landscape) and (max-height: 500px) {
+
+  header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .question {
+    font-size: 20px;
+    padding: 5px;
+  }
+
+  button {
+    min-height: 46px;
+  }
+}
+
+/* =========================
+   クイズ画面を大きく表示
+========================= */
+
+.quiz-fullscreen {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.quiz-fullscreen .card {
+  width: 100%;
+  padding: 25px;
+}
+
+.quiz-fullscreen .question {
+  font-size: 32px;
+  padding: 25px 10px;
+}
+
+.quiz-fullscreen .choice {
+  min-height: 72px;
+  font-size: 19px;
+}
+
+.quiz-fullscreen .answerInput {
+  height: 75px;
+  min-height: 75px;
+  font-size: 34px;
+}
+
+.quiz-fullscreen button {
+  min-height: 62px;
+  font-size: 19px;
+}
+
+/* スマホ */
+
+@media (max-width: 600px) {
+
+  .quiz-fullscreen {
+    width: 100%;
+    padding: 8px;
+  }
+
+  .quiz-fullscreen .card {
+    padding: 18px 12px;
+  }
+
+  .quiz-fullscreen .question {
+    font-size: 27px;
+  }
+
+  .quiz-fullscreen .choice {
+    min-height: 70px;
+    font-size: 17px;
+  }
+
+  .quiz-fullscreen button {
+    min-height: 60px;
+    font-size: 18px;
+  }
+}
+
+/* =========================
+   戻るボタン
+========================= */
+
+.quizBackButton {
+  background: #eeeeee;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1> ⚔️年号覇王伝</h1>
+  <p>出来事 → 年号 ／ 年号 → 6択</p>
+</header>
+
+<div class="container">
+
+<!-- =========================
+     設定画面
+========================= -->
+
+<div id="setup" class="card">
+
+  <h2>🎯 出題設定</h2>
+
+  <label>時代</label>
+
+  <select id="era">
+    <option value="all">すべて</option>
+    <option value="弥生">弥生</option>
+    <option value="古墳">古墳</option>
+    <option value="飛鳥">飛鳥時代</option>
+    <option value="奈良">奈良時代</option>
+    <option value="平安">平安時代</option>
+    <option value="鎌倉">鎌倉時代</option>
+    <option value="室町">室町時代</option>
+    <option value="安土桃山">安土・桃山時代</option>
+    <option value="江戸">江戸時代</option>
+    <option value="明治">明治時代</option>
+    <option value="大正">大正時代</option>
+    <option value="昭和">昭和時代</option>
+  </select>
+
+  <label>問題番号</label>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+    <input type="number" id="startNo" value="1" min="1">
+    <input type="number" id="endNo" value="999" min="1">
+  </div>
+
+  <p class="small">
+    例：1〜30なら「1」と「30」
+  </p>
+
+  <label>ランク</label>
+
+  <select id="rank">
+    <option value="all">A・B・Cすべて</option>
+    <option value="A">Aだけ</option>
+    <option value="B">Bだけ</option>
+    <option value="C">Cだけ</option>
+  </select>
+
+  <label>問題数</label>
+
+  <select id="questionCount">
+    <option value="5">5問</option>
+    <option value="10" selected>10問</option>
+    <option value="20">20問</option>
+    <option value="30">30問</option>
+    <option value="50">50問</option>
+    <option value="all">全部</option>
+  </select>
+
+  <label>問題形式</label>
+
+  <div class="modeBtns">
+
+    <button
+      class="modeBtn selected"
+      id="modeYearBtn"
+      onclick="selectMode('year')">
+      ✍️ 出来事 → 年号
+    </button>
+
+    <button
+      class="modeBtn"
+      id="modeEventBtn"
+      onclick="selectMode('event')">
+      🔢 年号 → 6択
+    </button>
+
+  </div>
+
+  <button class="startBtn" onclick="startQuiz(false)">
+    🚀 クイズ開始
+  </button>
+
+  <button class="subBtn" onclick="startQuiz(true)">
+    ❌ 間違えた問題だけ
+  </button>
+
+  <button class="subBtn" onclick="showStats()">
+    📊 苦手ランキングを見る
+  </button>
+
+  <button class="dangerBtn" onclick="resetWrong()">
+    🗑 苦手記録をリセット
+  </button>
+
+</div>
+
+
+<!-- =========================
+     クイズ画面
+========================= -->
+
+<div id="quiz" class="hidden quiz-fullscreen">
+
+  <button
+    class="quizBackButton"
+    onclick="confirmBackToSetup()">
+    ↩️ 途中で設定に戻る
+  </button>
+
+  <div class="card">
+
+    <div class="questionNo" id="questionNo"></div>
+
+    <div class="progress">
+      <div
+        class="progressBar"
+        id="progressBar">
+      </div>
+    </div>
+
+    <div id="question" class="question"></div>
+
+    <div id="answerArea"></div>
+
+    <div id="resultArea"></div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     結果画面
+========================= -->
+
+<div id="resultScreen" class="hidden">
+
+  <div class="card">
+
+    <h2>🎉 結果発表</h2>
+
+    <div class="score" id="finalScore"></div>
+
+    <div class="statGrid">
+
+      <div class="statBox">
+        <div class="statNumber" id="correctCount">0</div>
+        正解
+      </div>
+
+      <div class="statBox">
+        <div class="statNumber" id="wrongCount">0</div>
+        不正解
+      </div>
+
+      <div class="statBox">
+        <div class="statNumber" id="percent">0%</div>
+        正解率
+      </div>
+
+    </div>
+
+    <button class="startBtn" onclick="backToSetup()">
+      🔄 もう一度設定
+    </button>
+
+    <button class="subBtn" onclick="retryWrongFromResult()">
+      ❌ 間違えた問題だけ復習
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     統計
+========================= -->
+
+<div id="statsScreen" class="hidden">
+
+  <div class="card">
+
+    <h2>📊 苦手ランキング</h2>
+
+    <div id="statsList"></div>
+
+    <button class="subBtn" onclick="backToSetup()">
+      ← 戻る
+    </button>
+
+  </div>
+
+</div>
+
+</div>
+
+<footer>
+日本史 年号暗記クイズ
+</footer>
+
+
+<script>
+
+/* =====================================================
+   問題データ
+===================================================== */
+
+const questions = [
+
+{n:1,era:"弥生",rank:"B",year:57,event:"倭の奴国王が漢に使いを送り、金印を授かる",goro:"こんな金印見たことない"},
+{n:2,era:"弥生",rank:"B",year:239,event:"卑弥呼が魏に使いを送る",goro:"魏にふみくれた卑弥呼さん"},
+{n:3,era:"古墳",rank:"C",year:478,event:"倭王武が中国の南朝に使いを送る",goro:"しなやかに外交をする大王は"},
+{n:4,era:"古墳",rank:"B",year:538,event:"百済から日本に仏教が伝わる",goro:"百済の仏にご参拝"},
+
+{n:5,era:"飛鳥",rank:"A",year:593,event:"聖徳太子が推古天皇の摂政になる",goro:"聖徳太子、コックさん"},
+{n:6,era:"飛鳥",rank:"C",year:603,event:"冠位十二階が制定される",goro:"群れて見上げる十二階"},
+{n:7,era:"飛鳥",rank:"C",year:604,event:"十七条の憲法が制定される",goro:"ローマ字で書く十七条"},
+{n:8,era:"飛鳥",rank:"A",year:607,event:"小野妹子が遣隋使として隋に派遣される",goro:"人は群れなす、遣隋使"},
+{n:9,era:"飛鳥",rank:"C",year:618,event:"唐が建国される",goro:"煬帝の浪費やめよう、唐建国"},
+{n:10,era:"飛鳥",rank:"C",year:630,event:"第1回遣唐使が派遣される",goro:"ロミオは行くよ、遣唐使"},
+{n:11,era:"飛鳥",rank:"A",year:645,event:"大化の改新が始まる",goro:"大化の改新、むしごはん"},
+{n:12,era:"飛鳥",rank:"C",year:663,event:"白村江の戦いが起こる",goro:"無論みにいく朝鮮を"},
+{n:13,era:"飛鳥",rank:"B",year:672,event:"壬申の乱が起こる",goro:"ろくな二人の皇位争い"},
+{n:14,era:"飛鳥",rank:"B",year:701,event:"大宝律令が制定される",goro:"唐みたいになれい、大宝律令"},
+
+{n:15,era:"奈良",rank:"A",year:710,event:"平城京に都を移す",goro:"なんとりっぱな平城京"},
+{n:16,era:"奈良",rank:"B",year:743,event:"墾田永年私財法が制定される",goro:"公地公民もうなさ"},
+
+{n:17,era:"平安",rank:"A",year:794,event:"平安京に都を移す",goro:"鳴くようぐいす、平安京"},
+{n:18,era:"平安",rank:"C",year:858,event:"藤原良房が摂政になる",goro:"良房摂政なるのはいつや"},
+{n:19,era:"平安",rank:"A",year:894,event:"遣唐使が廃止される",goro:"白紙にもどそう遣唐使"},
+{n:20,era:"平安",rank:"A",year:939,event:"平将門の乱が起こる",goro:"クサくなった平将門"},
+{n:21,era:"平安",rank:"B",year:939,event:"藤原純友の乱が起こる",goro:"瀬戸内海がくさくなる"},
+{n:22,era:"平安",rank:"C",year:960,event:"宋が建国される",goro:"苦労をかねて宋建国"},
+{n:23,era:"平安",rank:"B",year:1016,event:"藤原道長が摂政になる",goro:"道長は人をいろいろ指図"},
+{n:24,era:"平安",rank:"C",year:1051,event:"前九年の役が始まる",goro:"一応、合意に達した前九年"},
+{n:25,era:"平安",rank:"C",year:1083,event:"後三年の役が始まる",goro:"人をやみに葬る後三年"},
+{n:26,era:"平安",rank:"A",year:1086,event:"白河上皇が院政を始める",goro:"入れ歯六本、白河上皇"},
+{n:27,era:"平安",rank:"B",year:1156,event:"保元の乱が起こる",goro:"いいころおきた保元の乱"},
+{n:28,era:"平安",rank:"B",year:1159,event:"平治の乱が起こる",goro:"人々ご苦労、平治の乱"},
+{n:29,era:"平安",rank:"A",year:1167,event:"平清盛が太政大臣になる",goro:"平清盛、いいむなげ"},
+
+{n:30,era:"鎌倉",rank:"A",year:1185,event:"壇ノ浦の戦いが起こる",goro:"いいやごめんだ、壇ノ浦"},
+{n:31,era:"鎌倉",rank:"A",year:1185,event:"守護・地頭が設置される",goro:"いいやごめんだ守護・地頭"},
+{n:32,era:"鎌倉",rank:"A",year:1192,event:"源頼朝が征夷大将軍になる",goro:"いい国つくろう源頼朝"},
+{n:33,era:"鎌倉",rank:"A",year:1221,event:"承久の乱が起こる",goro:"人に不意打ち、承久の乱"},
+{n:34,era:"鎌倉",rank:"A",year:1221,event:"六波羅探題が設置される",goro:"人に不意打ち、六波羅探題"},
+{n:35,era:"鎌倉",rank:"A",year:1232,event:"御成敗式目が制定される",goro:"自由に見に来い御成敗"},
+{n:36,era:"鎌倉",rank:"B",year:1274,event:"文永の役が起こる",goro:"元の大軍、ひとになし"},
+{n:37,era:"鎌倉",rank:"C",year:1281,event:"弘安の役が起こる",goro:"ひとにはいえない負け戦"},
+{n:38,era:"鎌倉",rank:"C",year:1297,event:"永仁の徳政令が出される",goro:"ひにくな結果の徳政令"},
+{n:39,era:"鎌倉",rank:"B",year:1333,event:"鎌倉幕府が滅亡する",goro:"一味散々、鎌倉幕府滅亡"},
+
+{n:40,era:"室町",rank:"A",year:1334,event:"建武の新政が始まる",goro:"いざみよ後醍醐、建武の新政"},
+{n:41,era:"室町",rank:"C",year:1336,event:"後醍醐天皇が吉野に逃れ、南北朝時代が始まる",goro:"いざ去ろうと吉野へ逃げる"},
+{n:42,era:"室町",rank:"B",year:1338,event:"室町幕府が成立する",goro:"将軍尊氏、いい耳や"},
+{n:43,era:"室町",rank:"C",year:1368,event:"明が成立する",goro:"いさむや、明の朱元璋"},
+{n:44,era:"室町",rank:"A",year:1392,event:"南北朝が合一する",goro:"いざ国まとめる南北朝"},
+{n:45,era:"室町",rank:"A",year:1392,event:"李氏朝鮮が成立する",goro:"いざ国まとめる李氏朝鮮"},
+{n:46,era:"室町",rank:"B",year:1428,event:"正長の土一揆が起こる",goro:"一夜にえいと土一揆おこし"},
+{n:47,era:"室町",rank:"A",year:1467,event:"応仁の乱が起こる",goro:"人の世むなし応仁の乱"},
+{n:48,era:"室町",rank:"B",year:1485,event:"山城の国一揆が起こる",goro:"意志はごもっとも、山城一揆"},
+{n:49,era:"室町",rank:"B",year:1488,event:"加賀の一向一揆が起こる",goro:"意志ははっきり一向一揆"},
+{n:50,era:"室町",rank:"A",year:1543,event:"鉄砲が伝来する",goro:"以後予算に入れる鉄砲を"},
+{n:51,era:"室町",rank:"A",year:1549,event:"キリスト教が伝来する",goro:"以後よく広まるキリスト教"},
+{n:52,era:"室町",rank:"C",year:1560,event:"桶狭間の戦いが起こる",goro:"以後労苦をおしまず信長は"},
+{n:53,era:"室町",rank:"A",year:1573,event:"室町幕府が滅亡する",goro:"以後なさけない足利氏"},
+
+{n:54,era:"安土桃山",rank:"A",year:1575,event:"長篠の戦いが起こる",goro:"敗れた武田氏以後泣こう"},
+{n:55,era:"安土桃山",rank:"A",year:1582,event:"本能寺の変が起こる",goro:"いちごパンツだ、信長は"},
+{n:56,era:"安土桃山",rank:"A",year:1582,event:"太閤検地が始まる",goro:"いちごパンツで検地する秀吉"},
+{n:57,era:"安土桃山",rank:"A",year:1588,event:"刀狩が行われる",goro:"以後刃はだめよ刀狩"},
+{n:58,era:"安土桃山",rank:"B",year:1590,event:"豊臣秀吉が全国統一を完成する",goro:"戦国まるくおさめ、全国統一"},
+{n:59,era:"安土桃山",rank:"B",year:1592,event:"文禄の役が始まる",goro:"朝鮮を戦国にする秀吉さん"},
+{n:60,era:"安土桃山",rank:"C",year:1597,event:"慶長の役が始まる",goro:"以後、苦難の朝鮮侵略"},
+{n:61,era:"安土桃山",rank:"A",year:1600,event:"関ヶ原の戦いが起こる",goro:"ヒーロー多い、関ヶ原"},
+
+{n:62,era:"江戸",rank:"B",year:1603,event:"徳川家康が江戸幕府を開く",goro:"人群れあみあげる江戸の城"},
+{n:63,era:"江戸",rank:"A",year:1615,event:"武家諸法度が制定される",goro:"異論、以後なし武家諸法度"},
+{n:64,era:"江戸",rank:"B",year:1635,event:"参勤交代が制度化される",goro:"異論みごとに抑え参勤交代"},
+{n:65,era:"江戸",rank:"B",year:1637,event:"島原の乱が起こる",goro:"疲労でみな死ぬ島原の乱"},
+{n:66,era:"江戸",rank:"A",year:1639,event:"ポルトガル船の来航が禁止され、鎖国が完成する",goro:"一路鎖国へ行く日本"},
+{n:67,era:"江戸",rank:"C",year:1644,event:"明が滅亡し、清が中国を支配する",goro:"明の人無視して、清おこる"},
+{n:68,era:"江戸",rank:"B",year:1669,event:"シャクシャインの戦いが起こる",goro:"一路69人で戦うシャクシャイン"},
+{n:69,era:"江戸",rank:"C",year:1685,event:"生類憐みの令が出される",goro:"疲労はこんなに憐みの令"},
+{n:70,era:"江戸",rank:"C",year:1709,event:"新井白石が正徳の治を行う",goro:"非難まるくおさめる白石さん"},
+{n:71,era:"江戸",rank:"A",year:1716,event:"享保の改革が始まる",goro:"非難いろいろ享保の改革"},
+{n:72,era:"江戸",rank:"C",year:1772,event:"田沼意次が老中になる",goro:"いいな何もらったの？わいろ"},
+{n:73,era:"江戸",rank:"C",year:1774,event:"『解体新書』が出版される",goro:"解体新書に非難なし"},
+{n:74,era:"江戸",rank:"A",year:1787,event:"寛政の改革が始まる",goro:"非難やな顔で聞く、定信さん"},
+{n:75,era:"江戸",rank:"C",year:1792,event:"ラクスマンが根室に来航する",goro:"一難、国を守ると通商拒否"},
+{n:76,era:"江戸",rank:"B",year:1825,event:"異国船打払令が出される",goro:"いやに強引打ち払い令"},
+{n:77,era:"江戸",rank:"A",year:1837,event:"大塩平八郎の乱が起こる",goro:"人はみな、平八郎を応援す"},
+{n:78,era:"江戸",rank:"C",year:1840,event:"アヘン戦争が起こる",goro:"アヘンの害を人は知れ"},
+{n:79,era:"江戸",rank:"B",year:1841,event:"天保の改革が始まる",goro:"人はよい、水野さん"},
+{n:80,era:"江戸",rank:"A",year:1853,event:"ペリーが浦賀に来航する",goro:"いやでございんすペリーさん"},
+{n:81,era:"江戸",rank:"B",year:1854,event:"日米和親条約が結ばれる",goro:"人は来いよと和親条約"},
+{n:82,era:"江戸",rank:"A",year:1858,event:"日米修好通商条約が結ばれる",goro:"いちばんこわい通商条約"},
+{n:83,era:"江戸",rank:"B",year:1858,event:"安政の大獄が起こる",goro:"いや〜こわいな直弼の大獄は"},
+{n:84,era:"江戸",rank:"C",year:1860,event:"桜田門外の変が起こる",goro:"人は群れて、井伊殺す"},
+{n:85,era:"江戸",rank:"C",year:1863,event:"薩英戦争が起こる",goro:"いや無残に負けた薩長は"},
+{n:86,era:"江戸",rank:"C",year:1863,event:"下関で外国船を砲撃する",goro:"いや無残な下関砲撃"},
+{n:87,era:"江戸",rank:"B",year:1866,event:"薩長同盟が成立する",goro:"幕府の人はろくろくねむれず"},
+{n:88,era:"江戸",rank:"A",year:1867,event:"大政奉還が行われる",goro:"一夜むなしい大政奉還"},
+{n:89,era:"江戸",rank:"A",year:1867,event:"王政復古の大号令が出される",goro:"一夜むなしい王政復古"},
+
+{n:90,era:"明治",rank:"A",year:1868,event:"五箇条の御誓文が出される",goro:"ひとつやろうや五条を"},
+{n:91,era:"明治",rank:"B",year:1868,event:"鳥羽・伏見の戦いが起こる",goro:"ひとやろうや鳥羽伏見"},
+{n:92,era:"明治",rank:"B",year:1869,event:"版籍奉還が行われる",goro:"人はむくわれる版籍奉還"},
+{n:93,era:"明治",rank:"B",year:1871,event:"廃藩置県が行われる",goro:"藩とはいわない廃藩置県"},
+{n:94,era:"明治",rank:"B",year:1871,event:"岩倉使節団が欧米に派遣される",goro:"藩とはいわない岩倉使節団"},
+{n:95,era:"明治",rank:"B",year:1872,event:"学制が公布される",goro:"いや何教えようか義務教育"},
+{n:96,era:"明治",rank:"B",year:1872,event:"日本で鉄道が開通する",goro:"いや何と鉄道開通"},
+{n:97,era:"明治",rank:"A",year:1873,event:"地租改正が行われる",goro:"人は涙の地租改正、3％"},
+{n:98,era:"明治",rank:"A",year:1873,event:"徴兵令が出される",goro:"人は涙の徴兵令"},
+{n:99,era:"明治",rank:"B",year:1873,event:"太陽暦が採用される",goro:"人は涙の太陽暦"},
+{n:100,era:"明治",rank:"B",year:1874,event:"板垣退助が民選議院設立建白書を提出する",goro:"いやな世直せと建白書"},
+{n:101,era:"明治",rank:"A",year:1877,event:"西南戦争が起こる",goro:"いやな内乱、西南戦争"},
+{n:102,era:"明治",rank:"A",year:1877,event:"地租が2.5％に引き下げられる",goro:"いやな内乱、地租は2.5％"},
+{n:103,era:"明治",rank:"C",year:1881,event:"国会開設の勅諭が出される",goro:"人ははいと答える、国会で"},
+{n:104,era:"明治",rank:"C",year:1881,event:"自由党が結成される",goro:"人ははいと答える自由党"},
+{n:105,era:"明治",rank:"C",year:1882,event:"立憲改進党が結成される",goro:"人は派閥をつくる改進党"},
+{n:106,era:"明治",rank:"C",year:1884,event:"秩父事件が起こる",goro:"一夜走るよ秩父事件"},
+{n:107,era:"明治",rank:"B",year:1885,event:"内閣制度が成立する",goro:"批判は御無用、内閣制度"},
+{n:108,era:"明治",rank:"C",year:1886,event:"ノルマントン号事件が起こる",goro:"批判やむはずもないノルマントン"},
+{n:109,era:"明治",rank:"A",year:1889,event:"大日本帝国憲法が発布される",goro:"いち早くつくった大日本帝国憲法"},
+{n:110,era:"明治",rank:"A",year:1890,event:"第1回帝国議会が開かれる",goro:"飛躍を目指し、帝国議会"},
+{n:111,era:"明治",rank:"A",year:1890,event:"教育勅語が発布される",goro:"飛躍を目指し、教育勅語"},
+{n:112,era:"明治",rank:"A",year:1894,event:"領事裁判権が廃止される",goro:"人は苦しむ、日清戦争"},
+{n:113,era:"明治",rank:"A",year:1894,event:"日清戦争が始まる",goro:"人は苦しむ、日清戦争"},
+{n:114,era:"明治",rank:"B",year:1895,event:"下関条約が結ばれる",goro:"一躍ごきげん下関"},
+{n:115,era:"明治",rank:"B",year:1895,event:"三国干渉が行われる",goro:"一躍ごきげん三国干渉"},
+{n:116,era:"明治",rank:"C",year:1900,event:"義和団事件が起こる",goro:"義和団にいくぞおお"},
+{n:117,era:"明治",rank:"B",year:1901,event:"八幡製鉄所が操業を開始する",goro:"火くれいと八幡製鉄所"},
+{n:118,era:"明治",rank:"B",year:1902,event:"日英同盟が結ばれる",goro:"日暮れに結んだ日英同盟"},
+{n:119,era:"明治",rank:"A",year:1904,event:"日露戦争が始まる",goro:"ひどく惜しい日露戦争"},
+{n:120,era:"明治",rank:"B",year:1905,event:"ポーツマス条約が結ばれる",goro:"特例ごらんポーツマス"},
+{n:121,era:"明治",rank:"A",year:1910,event:"韓国併合が行われる",goro:"行くと？日本も韓国へ"},
+{n:122,era:"明治",rank:"A",year:1910,event:"大逆事件が起こる",goro:"行くと？大逆事件"},
+{n:123,era:"明治",rank:"B",year:1911,event:"関税自主権が回復する",goro:"ひどくいい関税自主権回復"},
+{n:124,era:"明治",rank:"B",year:1911,event:"辛亥革命が起こる",goro:"ひどくいい辛亥革命"},
+{n:125,era:"明治",rank:"C",year:1912,event:"中華民国が成立する",goro:"南京行く日にできた、中華民国"},
+
+{n:126,era:"大正",rank:"A",year:1914,event:"第一次世界大戦が始まる",goro:"行く意志固める世界大戦"},
+{n:127,era:"大正",rank:"B",year:1915,event:"二十一か条の要求を出す",goro:"人食い殺す二十一条"},
+{n:128,era:"大正",rank:"B",year:1917,event:"ロシア革命が起こる",goro:"革命で得意な顔したレーニンは"},
+{n:129,era:"大正",rank:"A",year:1918,event:"米騒動が起こる",goro:"ひどくイヤな米騒動"},
+{n:130,era:"大正",rank:"A",year:1918,event:"原敬の内閣が成立する",goro:"ひどくイヤな原敬内閣"},
+{n:131,era:"大正",rank:"C",year:1919,event:"三・一独立運動が起こる",goro:"みんな行く行く独立運動"},
+{n:132,era:"大正",rank:"B",year:1919,event:"ベルサイユ条約が結ばれる",goro:"みんな行く行くベルサイユ"},
+{n:133,era:"大正",rank:"B",year:1920,event:"国際連盟が成立する",goro:"ビッグに丸めて国際連盟"},
+{n:134,era:"大正",rank:"C",year:1921,event:"ワシントン会議が開かれる",goro:"いくついるのか、主力艦"},
+{n:135,era:"大正",rank:"C",year:1921,event:"日英同盟が廃止される",goro:"いくついるのか、日英同盟廃止"},
+{n:136,era:"大正",rank:"C",year:1922,event:"全国水平社が設立される",goro:"身分低いの普通にしよう"},
+{n:137,era:"大正",rank:"B",year:1923,event:"関東大震災が起こる",goro:"地震なければいい国さ"},
+{n:138,era:"大正",rank:"A",year:1925,event:"治安維持法が制定される",goro:"選挙に行く25歳、治安維持法"},
+{n:139,era:"大正",rank:"A",year:1925,event:"普通選挙法が制定される",goro:"選挙に行く25歳"},
+{n:140,era:"大正",rank:"A",year:1925,event:"ラジオ放送が始まる",goro:"選挙に行く25歳、ラジオ開始"},
+
+{n:141,era:"昭和",rank:"B",year:1929,event:"世界恐慌が始まる",goro:"特に苦しい世界恐慌"},
+{n:142,era:"昭和",rank:"C",year:1930,event:"ロンドン海軍軍縮会議が開かれる",goro:"ロンドン軍縮いくさせゼロ"},
+{n:143,era:"昭和",rank:"A",year:1931,event:"満州事変が起こる",goro:"独裁への道、満州事変"},
+{n:144,era:"昭和",rank:"B",year:1932,event:"満州国が成立する",goro:"いくさにつながる満州国"},
+{n:145,era:"昭和",rank:"B",year:1932,event:"五・一五事件が起こる",goro:"いくさにつながる五・一五"},
+{n:146,era:"昭和",rank:"B",year:1933,event:"日本が国際連盟を脱退する",goro:"ひどくさんざん連盟脱退"},
+{n:147,era:"昭和",rank:"B",year:1936,event:"二・二六事件が起こる",goro:"ひどく寒いぞ二・二六"},
+{n:148,era:"昭和",rank:"B",year:1937,event:"日中戦争が始まる",goro:"いくさ長引く日中戦争"},
+{n:149,era:"昭和",rank:"B",year:1938,event:"国家総動員法が制定される",goro:"いくさやるので、総動員"},
+{n:150,era:"昭和",rank:"B",year:1939,event:"第二次世界大戦が始まる",goro:"いくさ苦しいヨーロッパ"},
+{n:151,era:"昭和",rank:"C",year:1940,event:"日独伊三国同盟が結ばれる",goro:"行く寄れ三国同盟だ"},
+{n:152,era:"昭和",rank:"C",year:1940,event:"大政翼賛会が結成される",goro:"行く寄れ大政翼賛会"},
+{n:153,era:"昭和",rank:"A",year:1941,event:"太平洋戦争が始まる",goro:"いくよ一気に真珠湾"},
+{n:154,era:"昭和",rank:"A",year:1941,event:"日本軍が真珠湾を攻撃する",goro:"いくよ一気に真珠湾"},
+{n:155,era:"昭和",rank:"A",year:1945,event:"ヤルタ会談が開かれる",goro:"ひどく汚れて、敗戦へ"},
+{n:156,era:"昭和",rank:"A",year:1945,event:"ポツダム宣言を受け入れる",goro:"ひどく汚れて、ポツダム宣言"},
+{n:157,era:"昭和",rank:"A",year:1945,event:"国際連合が成立する",goro:"ひどく汚れて、国際連合"},
+{n:158,era:"昭和",rank:"C",year:1946,event:"日本国憲法が公布される",goro:"日本の行く進路示す新憲法"},
+{n:159,era:"昭和",rank:"C",year:1946,event:"農地改革が行われる",goro:"日本の行く進路、農地改革"},
+{n:160,era:"昭和",rank:"C",year:1947,event:"日本国憲法が施行される",goro:"新憲法でひどくよくなる"},
+{n:161,era:"昭和",rank:"C",year:1948,event:"世界人権宣言が採択される",goro:"身分低い世はイヤと人権宣言"},
+{n:162,era:"昭和",rank:"C",year:1949,event:"中華人民共和国が成立する",goro:"中国はひどくよくなった"},
+{n:163,era:"昭和",rank:"A",year:1950,event:"朝鮮戦争が始まる",goro:"ひどくこまるよ、朝鮮戦争"},
+{n:164,era:"昭和",rank:"A",year:1951,event:"サンフランシスコ平和条約が結ばれる",goro:"ひどく強引、平和条約"},
+{n:165,era:"昭和",rank:"A",year:1951,event:"日米安全保障条約が結ばれる",goro:"ひどく強引、安全保障"},
+{n:166,era:"昭和",rank:"C",year:1955,event:"アジア・アフリカ会議が開かれる",goro:"いくぞゴーゴー、バンドン会議"},
+{n:167,era:"昭和",rank:"C",year:1955,event:"原水爆禁止世界大会が開かれる",goro:"いくぞゴーゴー、原水爆禁止"},
+{n:168,era:"昭和",rank:"A",year:1956,event:"日ソ共同宣言が出される",goro:"連合に日本も行くころだ"},
+{n:169,era:"昭和",rank:"A",year:1956,event:"日本が国際連合に加盟する",goro:"連合に日本も行くころだ"},
+{n:170,era:"昭和",rank:"C",year:1963,event:"部分的核実験停止条約が結ばれる",goro:"ひどく無残だ、地下にしよう"},
+{n:171,era:"昭和",rank:"B",year:1964,event:"東京オリンピックが開催される",goro:"行くぞ無視して東京へ"},
+{n:172,era:"昭和",rank:"C",year:1965,event:"日韓基本条約が結ばれる",goro:"ひどくむごいと日韓条約"},
+{n:173,era:"昭和",rank:"C",year:1966,event:"国際人権規約が採択される",goro:"行くぞ、無論、人権認め"},
+{n:174,era:"昭和",rank:"C",year:1968,event:"核拡散防止条約が成立する",goro:"ひどくむやみな拡散防止"},
+{n:175,era:"昭和",rank:"A",year:1972,event:"沖縄が日本に返還される",goro:"ひどくなつかしい沖縄復帰"},
+{n:176,era:"昭和",rank:"A",year:1972,event:"日中共同声明が出され、日中国交が回復する",goro:"ひどくなつかしい日中復交"},
+{n:177,era:"昭和",rank:"C",year:1973,event:"石油危機が起こる",goro:"行くな、みんなで石油を買いに"},
+{n:178,era:"昭和",rank:"C",year:1975,event:"ベトナム戦争が終結する",goro:"行くな、ベトナム戦争終結"},
+{n:179,era:"昭和",rank:"B",year:1978,event:"日中平和友好条約が結ばれる",goro:"ビッグなパンダの友好条約"},
+{n:180,era:"昭和",rank:"C",year:1989,event:"消費税3％が導入される",goro:"消費税3％、引くのはくるしい"},
+{n:181,era:"昭和",rank:"C",year:1989,event:"子どもの権利条約が採択される",goro:"消費税3％、子どもの権利"},
+{n:182,era:"昭和",rank:"C",year:1990,event:"東西ドイツが統一する",goro:"ひとつにくくれドイツ統一"},
+{n:183,era:"昭和",rank:"C",year:1991,event:"ソ連が解体する",goro:"ひどく悔い残るソ連解体"},
+{n:184,era:"昭和",rank:"C",year:1991,event:"独立国家共同体が成立する",goro:"ひどく悔い残るソ連から独立国家共同体"},
+{n:185,era:"昭和",rank:"C",year:1991,event:"湾岸戦争が起こる",goro:"ひどく悔い残る湾岸戦争"},
+{n:186,era:"昭和",rank:"C",year:1993,event:"EUが成立する",goro:"広く組みたいEUを"},
+{n:187,era:"昭和",rank:"C",year:1995,event:"阪神・淡路大震災が起こる",goro:"行く救護、阪神・淡路大震災"}
+
+];
+
+
+/* =====================================================
+   ゲーム設定
+===================================================== */
+
+let mode = "year";
+let quizQuestions = [];
+let currentIndex = 0;
+let correct = 0;
+let wrong = 0;
+let wrongThisGame = [];
+
+
+/* =====================================================
+   モード選択
+===================================================== */
+
+function selectMode(m) {
+
+  mode = m;
+
+  document.getElementById("modeYearBtn")
+    .classList.toggle("selected", m === "year");
+
+  document.getElementById("modeEventBtn")
+    .classList.toggle("selected", m === "event");
+}
+
+
+/* =====================================================
+   シャッフル
+===================================================== */
+
+function shuffle(array) {
+
+  const a = [...array];
+
+  for (let i = a.length - 1; i > 0; i--) {
+
+    const j =
+      Math.floor(Math.random() * (i + 1));
+
+    [a[i], a[j]] =
+      [a[j], a[i]];
+  }
+
+  return a;
+}
+
+
+/* =====================================================
+   クイズ開始
+===================================================== */
+
+function startQuiz(wrongOnly) {
+
+  let pool = questions;
+
+  if (wrongOnly) {
+
+    const wrongIds =
+      JSON.parse(
+        localStorage.getItem("wrongQuestions") || "[]"
+      );
+
+    pool =
+      questions.filter(
+        q => wrongIds.includes(q.n)
+      );
+
+    if (pool.length === 0) {
+
+      alert("まだ間違えた問題がありません！");
+
+      return;
+    }
+
+  } else {
+
+    const era =
+      document.getElementById("era").value;
+
+    const startNo =
+      Number(
+        document.getElementById("startNo").value
+      ) || 1;
+
+    const endNo =
+      Number(
+        document.getElementById("endNo").value
+      ) || questions.length;
+
+    const rank =
+      document.getElementById("rank").value;
+
+    pool =
+      questions.filter(q => {
+
+        const eraOK =
+          era === "all" || q.era === era;
+
+        const numberOK =
+          q.n >= startNo &&
+          q.n <= endNo;
+
+        const rankOK =
+          rank === "all" ||
+          q.rank === rank;
+
+        return eraOK &&
+               numberOK &&
+               rankOK;
+      });
+  }
+
+
+  if (pool.length === 0) {
+
+    alert("条件に合う問題がありません。");
+
+    return;
+  }
+
+
+  const count =
+    document.getElementById("questionCount").value;
+
+
+  if (count !== "all") {
+
+    pool =
+      shuffle(pool)
+      .slice(0, Number(count));
+
+  } else {
+
+    pool =
+      shuffle(pool);
+  }
+
+
+  quizQuestions = pool;
+
+  currentIndex = 0;
+
+  correct = 0;
+
+  wrong = 0;
+
+  wrongThisGame = [];
+
+
+  document.getElementById("setup")
+    .classList.add("hidden");
+
+  document.getElementById("resultScreen")
+    .classList.add("hidden");
+
+  document.getElementById("statsScreen")
+    .classList.add("hidden");
+
+  document.getElementById("quiz")
+    .classList.remove("hidden");
+
+
+  showQuestion();
+}
+
+
+/* =====================================================
+   問題表示
+===================================================== */
+
+function showQuestion() {
+
+  const q =
+    quizQuestions[currentIndex];
+
+
+  document.getElementById("questionNo")
+    .textContent =
+      `第 ${currentIndex + 1} 問 / ${quizQuestions.length}問　【${q.rank}】`;
+
+
+  document.getElementById("progressBar")
+    .style.width =
+      ((currentIndex) /
+       quizQuestions.length * 100) + "%";
+
+
+  document.getElementById("resultArea")
+    .innerHTML = "";
+
+
+  const question =
+    document.getElementById("question");
+
+  const answerArea =
+    document.getElementById("answerArea");
+
+
+  if (mode === "year") {
+
+    question.innerHTML =
+      `「${q.event}」<br>
+       <span style="font-size:16px;color:#777;">
+       何年？
+       </span>`;
+
+
+    answerArea.innerHTML = `
+
+      <input
+        id="yearAnswer"
+        class="answerInput"
+        type="number"
+        inputmode="numeric"
+        placeholder="年号を入力"
+        onkeydown="
+          if(event.key==='Enter')
+          checkYearAnswer()
+        "
+      >
+
+      <button
+        class="startBtn"
+        onclick="checkYearAnswer()">
+        ✅ 答える
+      </button>
+
+    `;
+
+
+    setTimeout(() => {
+
+      const input =
+        document.getElementById("yearAnswer");
+
+      if (input) {
+        input.focus();
+      }
+
+    }, 100);
+
+
+  } else {
+
+    question.innerHTML =
+      `「${q.year}年」<br>
+       <span style="font-size:16px;color:#777;">
+       何が起こった？
+       </span>`;
+
+
+    makeChoices(q);
+  }
+}
+
+
+/* =====================================================
+   年号入力問題
+===================================================== */
+
+function checkYearAnswer() {
+
+  const q =
+    quizQuestions[currentIndex];
+
+  const input =
+    document.getElementById("yearAnswer");
+
+  const answer =
+    Number(input.value);
+
+
+  if (!answer) {
+
+    alert("年号を入力してください。");
+
+    return;
+  }
+
+
+  const isCorrect =
+    answer === q.year;
+
+
+  if (isCorrect) {
+
+    correct++;
+
+    removeWrong(q.n);
+
+    playCorrectSound();
+
+  } else {
+
+    wrong++;
+
+    addWrong(q.n);
+
+    wrongThisGame.push(q);
+
+    playWrongSound();
+  }
+
+
+  input.disabled = true;
+
+  showAnswerResult(
+    q,
+    isCorrect,
+    answer
+  );
+}
+
+
+/* =====================================================
+   6択問題
+===================================================== */
+
+function makeChoices(q) {
+
+  const otherEvents =
+    shuffle(
+      questions.filter(
+        x => x.n !== q.n
+      )
+    ).slice(0, 5);
+
+
+  const choices =
+    shuffle([
+      q,
+      ...otherEvents
+    ]);
+
+
+  const area =
+    document.getElementById("answerArea");
+
+
+  area.innerHTML = `
+    <div class="sixChoices" id="choices"></div>
+  `;
+
+
+  const choicesDiv =
+    document.getElementById("choices");
+
+
+  choices.forEach(choice => {
+
+    const btn =
+      document.createElement("button");
+
+
+    btn.className = "choice";
+
+    btn.textContent =
+      choice.event;
+
+
+    btn.onclick = () => {
+
+      const allButtons =
+        document.querySelectorAll(".choice");
+
+
+      allButtons.forEach(b => {
+
+        b.disabled = true;
+
+      });
+
+
+      const isCorrect =
+        choice.n === q.n;
+
+
+      if (isCorrect) {
+
+        correct++;
+
+        removeWrong(q.n);
+
+        btn.classList.add("correct");
+
+        playCorrectSound();
+
+      } else {
+
+        wrong++;
+
+        addWrong(q.n);
+
+        wrongThisGame.push(q);
+
+        btn.classList.add("wrong");
+
+
+        allButtons.forEach(b => {
+
+          if (b.textContent === q.event) {
+
+            b.classList.add("correct");
+
+          }
+
+        });
+
+
+        playWrongSound();
+      }
+
+
+      showAnswerResult(
+        q,
+        isCorrect,
+        choice.event
+      );
+
+    };
+
+
+    choicesDiv.appendChild(btn);
+
+  });
+}
+
+
+/* =====================================================
+   正解・不正解表示
+===================================================== */
+
+function showAnswerResult(
+  q,
+  isCorrect,
+  userAnswer
+) {
+
+  const area =
+    document.getElementById("resultArea");
+
+
+  const title =
+    isCorrect
+    ? "⭕ 正解！"
+    : "❌ 不正解";
+
+
+  const resultClass =
+    isCorrect
+    ? "correctResult"
+    : "wrongResult";
+
+
+  area.innerHTML = `
+
+    <div class="result ${resultClass}">
+
+      ${title}
+
+      ${
+        isCorrect
+        ? ""
+        : `<br>正解：${q.year}年`
+      }
+
+    </div>
+
+
+    <div class="goro">
+
+      <div class="goroTitle">
+        💡 語呂合わせ
+      </div>
+
+      ${q.goro}
+
+    </div>
+
+
+    <div class="explanation">
+
+      📖 出来事：
+      ${q.event}
+      <br>
+
+      📅 年号：
+      ${q.year}年
+      <br>
+
+      🏷 ランク：
+      ${q.rank}
+
+    </div>
+
+
+    <button
+      class="startBtn"
+      onclick="nextQuestion()">
+
+      ${
+        currentIndex + 1 === quizQuestions.length
+        ? "🏁 結果を見る"
+        : "➡️ 次の問題"
+      }
+
+    </button>
+
+  `;
+}
+
+
+/* =====================================================
+   次の問題
+===================================================== */
+
+function nextQuestion() {
+
+  currentIndex++;
+
+
+  if (
+    currentIndex >=
+    quizQuestions.length
+  ) {
+
+    showFinalResult();
+
+  } else {
+
+    showQuestion();
+  }
+}
+
+
+/* =====================================================
+   途中で設定に戻る
+===================================================== */
+
+function confirmBackToSetup() {
+
+  const ok =
+    confirm(
+      "クイズを途中で終了して設定画面に戻りますか？\n\n今回の途中経過は保存されません。"
+    );
+
+
+  if (!ok) return;
+
+
+  document.getElementById("quiz")
+    .classList.add("hidden");
+
+  document.getElementById("setup")
+    .classList.remove("hidden");
+}
+
+
+/* =====================================================
+   結果
+===================================================== */
+
+function showFinalResult() {
+
+  document.getElementById("quiz")
+    .classList.add("hidden");
+
+
+  document.getElementById("resultScreen")
+    .classList.remove("hidden");
+
+
+  const total =
+    correct + wrong;
+
+
+  const percent =
+    total === 0
+    ? 0
+    : Math.round(
+        correct / total * 100
+      );
+
+
+  document.getElementById("finalScore")
+    .textContent =
+      `${percent}%`;
+
+
+  document.getElementById("correctCount")
+    .textContent =
+      correct;
+
+
+  document.getElementById("wrongCount")
+    .textContent =
+      wrong;
+
+
+  document.getElementById("percent")
+    .textContent =
+      percent + "%";
+
+
+  playResultSound();
+}
+
+
+/* =====================================================
+   苦手問題保存
+===================================================== */
+
+function addWrong(id) {
+
+  let list =
+    JSON.parse(
+      localStorage.getItem(
+        "wrongQuestions"
+      ) || "[]"
+    );
+
+
+  if (!list.includes(id)) {
+
+    list.push(id);
+  }
+
+
+  localStorage.setItem(
+    "wrongQuestions",
+    JSON.stringify(list)
+  );
+
+
+  updateWrongCount(
+    id,
+    true
+  );
+}
+
+
+function removeWrong(id) {
+
+  let list =
+    JSON.parse(
+      localStorage.getItem(
+        "wrongQuestions"
+      ) || "[]"
+    );
+
+
+  list =
+    list.filter(
+      x => x !== id
+    );
+
+
+  localStorage.setItem(
+    "wrongQuestions",
+    JSON.stringify(list)
+  );
+
+
+  updateWrongCount(
+    id,
+    false
+  );
+}
+
+
+/* =====================================================
+   間違い回数
+===================================================== */
+
+function updateWrongCount(
+  id,
+  wasWrong
+) {
+
+  let stats =
+    JSON.parse(
+      localStorage.getItem(
+        "wrongStats"
+      ) || "{}"
+    );
+
+
+  if (!stats[id]) {
+
+    stats[id] = 0;
+  }
+
+
+  if (wasWrong) {
+
+    stats[id]++;
+  }
+
+
+  localStorage.setItem(
+    "wrongStats",
+    JSON.stringify(stats)
+  );
+}
+
+
+/* =====================================================
+   苦手ランキング
+===================================================== */
+
+function showStats() {
+
+  document.getElementById("setup")
+    .classList.add("hidden");
+
+
+  document.getElementById("statsScreen")
+    .classList.remove("hidden");
+
+
+  const stats =
+    JSON.parse(
+      localStorage.getItem(
+        "wrongStats"
+      ) || "{}"
+    );
+
+
+  const list =
+    Object.entries(stats)
+      .filter(
+        ([id,count]) =>
+          count > 0
+      )
+      .sort(
+        (a,b) =>
+          b[1] - a[1]
+      );
+
+
+  const area =
+    document.getElementById(
+      "statsList"
+    );
+
+
+  if (list.length === 0) {
+
+    area.innerHTML =
+      `<p>
+        まだ間違えた問題はありません！🎉
+      </p>`;
+
+    return;
+  }
+
+
+  area.innerHTML = "";
+
+
+  list.forEach(
+    ([id,count], index) => {
+
+      const q =
+        questions.find(
+          x =>
+            x.n === Number(id)
+        );
+
+
+      if (!q) return;
+
+
+      const div =
+        document.createElement("div");
+
+
+      div.className = "card";
+
+
+      div.style.boxShadow =
+        "none";
+
+      div.style.background =
+        "#f5f7fb";
+
+
+      div.innerHTML = `
+
+        <strong>
+          ${index + 1}位　No.${q.n}
+        </strong>
+
+        <br>
+
+        ${q.event}
+
+        <br>
+
+        <span class="small">
+
+          ${q.year}年　【${q.rank}】　
+
+          間違い ${count}回
+
+        </span>
+
+      `;
+
+
+      area.appendChild(div);
+
+    }
+  );
+}
+
+
+/* =====================================================
+   結果画面から苦手復習
+===================================================== */
+
+function retryWrongFromResult() {
+
+  const wrongIds =
+    JSON.parse(
+      localStorage.getItem(
+        "wrongQuestions"
+      ) || "[]"
+    );
+
+
+  if (wrongIds.length === 0) {
+
+    alert(
+      "間違えた問題はありません！🎉"
+    );
+
+    return;
+  }
+
+
+  document.getElementById(
+    "resultScreen"
+  ).classList.add("hidden");
+
+
+  mode =
+    Math.random() < 0.5
+    ? "year"
+    : "event";
+
+
+  startQuiz(true);
+}
+
+
+/* =====================================================
+   設定画面へ
+===================================================== */
+
+function backToSetup() {
+
+  document.getElementById("quiz")
+    .classList.add("hidden");
+
+
+  document.getElementById(
+    "resultScreen"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "statsScreen"
+  ).classList.add("hidden");
+
+
+  document.getElementById("setup")
+    .classList.remove("hidden");
+}
+
+
+/* =====================================================
+   苦手記録リセット
+===================================================== */
+
+function resetWrong() {
+
+  if (
+    confirm(
+      "間違えた問題の記録を全部消しますか？"
+    )
+  ) {
+
+    localStorage.removeItem(
+      "wrongQuestions"
+    );
+
+    localStorage.removeItem(
+      "wrongStats"
+    );
+
+    alert(
+      "苦手記録をリセットしました！"
+    );
+  }
+}
+
+
+/* =====================================================
+   音を作る
+   和風・ゲーム風オリジナル効果音
+===================================================== */
+
+let audioCtx = null;
+
+
+function getAudioContext() {
+
+  const AudioContext =
+    window.AudioContext ||
+    window.webkitAudioContext;
+
+
+  if (!AudioContext) {
+    return null;
+  }
+
+
+  if (!audioCtx) {
+    audioCtx =
+      new AudioContext();
+  }
+
+
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+
+
+  return audioCtx;
+}
+
+
+/* =====================================================
+   1音
+===================================================== */
+
+function playNote(
+  frequency,
+  duration,
+  type = "sine",
+  volume = 0.12,
+  delay = 0
+) {
+
+  const ctx =
+    getAudioContext();
+
+
+  if (!ctx) return;
+
+
+  const oscillator =
+    ctx.createOscillator();
+
+  const gain =
+    ctx.createGain();
+
+
+  oscillator.type = type;
+
+  oscillator.frequency.setValueAtTime(
+    frequency,
+    ctx.currentTime + delay
+  );
+
+
+  gain.gain.setValueAtTime(
+    0.001,
+    ctx.currentTime + delay
+  );
+
+
+  gain.gain.exponentialRampToValueAtTime(
+    volume,
+    ctx.currentTime + delay + 0.015
+  );
+
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.001,
+    ctx.currentTime + delay + duration
+  );
+
+
+  oscillator.connect(gain);
+
+  gain.connect(ctx.destination);
+
+
+  oscillator.start(
+    ctx.currentTime + delay
+  );
+
+
+  oscillator.stop(
+    ctx.currentTime + delay + duration + 0.02
+  );
+}
+
+
+/* =====================================================
+   正解音
+   和風ゲームっぽい「勝ち」
+===================================================== */
+
+function playCorrectSound() {
+
+  playNote(
+    523.25,
+    0.12,
+    "triangle",
+    0.12,
+    0
+  );
+
+  playNote(
+    659.25,
+    0.12,
+    "triangle",
+    0.12,
+    0.08
+  );
+
+  playNote(
+    783.99,
+    0.20,
+    "triangle",
+    0.15,
+    0.16
+  );
+
+}
+
+
+/* =====================================================
+   不正解音
+   低い和風ゲーム音
+===================================================== */
+
+function playWrongSound() {
+
+  playNote(
+    180,
+    0.22,
+    "sawtooth",
+    0.10,
+    0
+  );
+
+  playNote(
+    130,
+    0.28,
+    "sawtooth",
+    0.08,
+    0.10
+  );
+
+}
+
+
+/* =====================================================
+   結果発表ファンファーレ
+===================================================== */
+
+function playResultSound() {
+
+  playNote(
+    392,
+    0.13,
+    "triangle",
+    0.10,
+    0
+  );
+
+  playNote(
+    523.25,
+    0.13,
+    "triangle",
+    0.11,
+    0.10
+  );
+
+  playNote(
+    659.25,
+    0.13,
+    "triangle",
+    0.12,
+    0.20
+  );
+
+  playNote(
+    783.99,
+    0.30,
+    "triangle",
+    0.15,
+    0.30
+  );
+
+}
+
+
+/* =====================================================
+   初期化
+===================================================== */
+
+document.getElementById("endNo").value =
+  questions.length;
+
+</script>
+
+</body>
+</html>
